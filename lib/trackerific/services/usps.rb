@@ -59,7 +59,7 @@ module Trackerific
       # parse the tracking events out of the USPS tracking info
       tracking_info['TrackDetail'].each do |d|
         events << Trackerific::Event.new(
-          :date         => date_of_event(d),
+          # :date         => date_of_event(d),
           :description  => description_of_event(d).capitalize,
           :location     => location_of_event(d)
         )
