@@ -122,8 +122,7 @@ module Trackerific
     def description_of_event(event)
       # get the description out of
       # Mon DD HH:MM am/pm THE DESCRIPTION CITY STATE ZIP.
-      d = event.split(" ")
-      d[4..d.length-4].join(" ").capitalize
+      event
     end
     
     # Parses a USPS tracking event, and returns its location
