@@ -57,13 +57,21 @@ module Trackerific
       tracking_info = response['TrackResponse']['TrackInfo']
       events = []
       # parse the tracking events out of the USPS tracking info
-      tracking_info['TrackDetail'].each do |d|
+      if tracking_info['TrackDetail'].is_a?(Array)
+        tracking_info['TrackDetail'].each do |d|
+          events << Trackerific::Event.new(
+            :date         => Time.now,
+            :description  => description_of_event(d).capitalize,
+            :location     => location_of_event(d)
+          )
+        end unless tracking_info['TrackDetail'].nil?
+      else
         events << Trackerific::Event.new(
           :date         => Time.now,
           :description  => description_of_event(d).capitalize,
           :location     => location_of_event(d)
-        )
-      end unless tracking_info['TrackDetail'].nil?
+        ) unless tracking_info['TrackDetail'].nil?
+      end
       # return the details
       Trackerific::Details.new(
         :package_id => tracking_info['ID'],
@@ -122,7 +130,8 @@ module Trackerific
     def description_of_event(event)
       # get the description out of
       # Mon DD HH:MM am/pm THE DESCRIPTION CITY STATE ZIP.
-      event
+      d = event.split(",")
+      d[0]
     end
     
     # Parses a USPS tracking event, and returns its location
