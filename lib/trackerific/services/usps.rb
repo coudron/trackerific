@@ -65,11 +65,11 @@ module Trackerific
           )
         end unless tracking_info['TrackDetail'].nil?
       else
-        events << Trackerific::Event.new(
-          :date         => Time.now,
-          :description  => description_of_event(d).capitalize,
-          :location     => location_of_event(d)
-        ) unless tracking_info['TrackDetail'].nil?
+        # events << Trackerific::Event.new(
+        #   :date         => Time.now,
+        #   :description  => description_of_event(d).capitalize,
+        #   :location     => location_of_event(d)
+        # ) unless tracking_info['TrackDetail'].nil?
       end
       # return the details
       Trackerific::Details.new(
