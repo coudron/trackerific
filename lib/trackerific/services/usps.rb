@@ -10,7 +10,7 @@ module Trackerific
     # setup HTTParty
     include HTTParty
     format :xml
-    base_uri Rails.env.production? ? "http://production.shippingapis.com" : "http://testing.shippingapis.com"
+    base_uri "http://production.shippingapis.com" 
     
     class << self
       # An Array of Regexp that matches valid USPS package IDs
@@ -46,8 +46,7 @@ module Trackerific
     def track_package(package_id)
       super
       # connect to the USPS shipping API via HTTParty
-      response = self.class.get(
-        Rails.env.production? ? "/ShippingAPI.dll" : "/ShippingAPITest.dll",
+      response = self.class.get("/ShippingAPI.dll",
         :query => { :API => 'TrackV2', :XML => build_tracking_xml_request }.to_query
       )
       # raise any errors
@@ -91,8 +90,7 @@ module Trackerific
     #   city_state[:zip]   # => 90210
     # @api public
     def city_state_lookup(zipcode)
-      response = self.class.get(
-        Rails.env.production? ? "/ShippingAPI.dll" : "/ShippingAPITest.dll",
+      response = self.class.get( "/ShippingAPI.dll",
         :query => {
           :API => 'CityStateLookup',
           :XML => build_city_state_xml_request(zipcode)

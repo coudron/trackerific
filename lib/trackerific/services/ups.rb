@@ -9,10 +9,7 @@ module Trackerific
     include ::HTTParty
     format :xml
     # use the test site for Rails development, production for everything else
-    base_uri defined?(Rails) ? case Rails.env
-      when 'test','development' then 'https://wwwcie.ups.com/ups.app/xml'
-      when 'production' then 'https://www.ups.com/ups.app/xml'
-    end : 'https://www.ups.com/ups.app/xml'
+    base_uri 'https://www.ups.com/ups.app/xml'
     
     class << self
       # An Array of Regexp that matches valid UPS package IDs

@@ -10,7 +10,6 @@ module Trackerific
       # @return [Array, Regexp] the regular expression
       # @api private
       def package_id_matchers
-        return [ /XXXXXXXXXX/, /XXXxxxxxxx/ ] unless Rails.env.production?
         return [ ]
       end
       
