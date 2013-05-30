@@ -53,23 +53,24 @@ module Trackerific
       error = check_response_for_errors(response, :TrackV2)
       raise error unless error.nil?
       # get the tracking information from the response
+      #p response
       tracking_info = response['TrackResponse']['TrackInfo']
       events = []
       # parse the tracking events out of the USPS tracking info
       if tracking_info['TrackDetail'].is_a?(Array)
         tracking_info['TrackDetail'].each do |d|
           events << Trackerific::Event.new(
-            :date         => Time.now,
-            :description  => description_of_event(d).capitalize,
-            :location     => location_of_event(d)
+            :date         => "unknown",
+            :description  => d,
+            :location     => "unknown"
           )
         end unless tracking_info['TrackDetail'].nil?
       else
-        # events << Trackerific::Event.new(
-        #   :date         => Time.now,
-        #   :description  => description_of_event(d).capitalize,
-        #   :location     => location_of_event(d)
-        # ) unless tracking_info['TrackDetail'].nil?
+        events << Trackerific::Event.new(
+          :date         => "unknown",
+          :description  => tracking_info['TrackDetail'],
+          :location     => "unknown"
+        ) unless tracking_info['TrackDetail'].nil?
       end
       # return the details
       Trackerific::Details.new(
